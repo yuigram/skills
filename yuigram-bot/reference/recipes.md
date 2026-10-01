@@ -104,3 +104,52 @@ const local = Bot.fromToken(process.env.BOT_TOKEN!, { baseUrl: 'http://127.0.0.1
 
 A local server's files are paths on its disk, so read them with the `download` function given
 `local.files`, not with the bot's own `download` method, which says so if asked.
+
+## Inline mode
+
+```ts
+import { inline } from 'yuigram'
+
+bot.on('inline_query', (query) =>
+  query.answerInlineQuery({
+    results: [
+      inline.article('Yuigram', { message_text: 'A Telegram framework' }),
+      inline.photo('https://example.com/cat.jpg', { caption: 'a cat' }),
+    ],
+  }),
+)
+```
+
+The `inline` builders fill in each result's `type` and a unique `id`; `inline.cached.*` builds
+results from files Telegram already holds, and `inline.button` the control above the results.
+Inline queries reach a bot only when inline mode is enabled for it in @BotFather.
+
+## Uploading a file once
+
+```ts
+import { openDatabase, sqliteStore } from '@yuigram/sqlite'
+import { media, mediaCache } from 'yuigram'
+
+const cache = mediaCache({ storage: sqliteStore<string>(await openDatabase('./bot.db'), { table: 'media' }) })
+bot.extend(cache)
+
+bot.onCommand('logo', async (message) => {
+  await message.sendPhoto({ photo: media.path('./logo.png') })   // uploaded the first time, then sent by identifier
+})
+```
+
+The cache keys a file by the bot, the media kind and its source (path, URL, content digest, or a
+`cacheKey` the caller gives). A cached identifier Telegram refuses is dropped and the original
+file sent once more; nothing is cached from a failed call. Two sends of the same file at once
+upload it once.
+
+## Telegram behaviour worth knowing
+
+- **Answer a button press promptly.** Until `query.answer()` is called the button shows a
+  spinner, and Telegram stops accepting an answer after a short window.
+- **Some updates arrive only when asked for.** `message_reaction` and `chat_member` are not sent
+  unless subscribed; `allowedUpdates: 'auto'` subscribes to what handlers are registered for.
+- **Formatting is either markup or entities.** Yuigram's `markup()` hook refuses a formatted
+  value combined with `parse_mode`, rather than letting one silently win.
+- **Entity offsets are UTF-16 code units**, which is what a JavaScript string index is; build
+  formatted text with `yuigram/markup` rather than computing offsets by hand.

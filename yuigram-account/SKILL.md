@@ -167,6 +167,26 @@ for await (const chunk of account.downloadIterable(documentFile(document))) void
 `documentFile`, `photoFile` or `thumbnailFile`. Delivery nodes (CDN) are off unless
 `cdn: true` is passed — a trust decision for the user, not a speed option.
 
+## File and inline message identifiers
+
+A bot's `file_id` and an account's file reference describe the same files, and Yuigram reads and
+writes the identifier format:
+
+```ts
+import { fileIdOfDocument, inputDocumentOf, looksLikeFileId, readFileId, uniqueFileId } from 'yuigram'
+
+const identity = readFileId(fileId)                 // refuses a malformed or unknown version
+const sameFile = uniqueFileId(identity)             // the same for every copy of the file; never stale
+const input = inputDocumentOf(fileId)               // an InputDocument an account can send
+const text = fileIdOfDocument(document)             // the other way, for a document an account saw
+void [looksLikeFileId(fileId), sameFile, input, text]
+```
+
+An identifier carries a file reference that can expire; sending a stale one is refused by
+Telegram, and the fix is to fetch the message again (which `event.download()` does by itself).
+`readInlineMessageId` and `writeInlineMessageId` from `yuigram/account-utils` convert an
+`inline_message_id` string and its TL form.
+
 ## Calls and cancellation
 
 `account.api.<namespace>.<method>({ … })` is the generated TL surface (field names as in the
