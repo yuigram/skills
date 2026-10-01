@@ -12,8 +12,8 @@ allowed-tools: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  yuigram_revision: 3ea7356cfd7f6b09ac9647fe9d3fbaaa8a5cffa5
-  package_version: 0.1.0
+  tested_revision: 3ea7356cfd7f6b09ac9647fe9d3fbaaa8a5cffa5
+  tested_package_version: 0.1.0
   bot_api: 10.3
   tl_layer: 229
   requires: [Account, App, bootstrapAt, serverKeysFromPem]
@@ -33,11 +33,15 @@ them differently.
 node <skills-dir>/using-yuigram/tools/check-version.mjs
 ```
 
-Run it from the project directory (or pass `--from <dir>`). These skills describe the surface at
-the `yuigram_revision` in this file's metadata. The version string cannot tell it apart from the
-published `0.1.0`, which has the Bot API client only, so the tool checks the Bot API release and
-TL layer the package reports and the exports only the newer surface has. If it says `differs`,
-confirm every API you use against the installed declarations before relying on these notes.
+Run it from the project directory (or pass `--from <dir>`). These skills were tested against the
+Yuigram source at `tested_revision` in this file's metadata. The tool reports four things apart:
+that tested revision, the installed version, whether the **required capabilities are detected**
+(the Bot API release and TL layer the package reports, and the exports in `requires`), and
+whether the package records the source revision it was built from. The version string cannot
+separate this surface from the published `0.1.0`, which has the Bot API client only, and a package
+that records no revision cannot be confirmed as the tested one — so "capabilities detected" is the
+strongest claim the tool makes without that record. If capabilities are not detected, confirm
+every API you use against the installed declarations before relying on these notes.
 
 To find where a value is exported from:
 

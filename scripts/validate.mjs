@@ -51,8 +51,8 @@ for (const skill of skills) {
   }
   if (fields.name !== skill) fail(path, `name '${fields.name}' does not match the directory '${skill}'`)
   if (!/^Use when /.test(fields.description ?? '')) fail(path, "description does not begin 'Use when'")
-  const revision = /yuigram_revision:\s*([0-9a-f]{40})/.exec(fields.metadata ?? '')?.[1]
-  if (revision === undefined) fail(path, 'metadata has no 40-character yuigram_revision')
+  const revision = /tested_revision:\s*([0-9a-f]{40})/.exec(fields.metadata ?? '')?.[1]
+  if (revision === undefined) fail(path, 'metadata has no 40-character tested_revision')
   else revisions.add(revision)
   for (const tool of (fields['allowed-tools'] ?? '').matchAll(/node \*([^*]+)\*/g)) {
     if (!existsSync(join(root, tool[1]))) fail(path, `allowed tool '${tool[1]}' does not exist`)

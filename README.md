@@ -25,20 +25,23 @@ when to load it, instructions, and focused reference files it opens only when ne
 
 ## Compatibility
 
-The skills describe the Yuigram source at revision `3ea7356cfd7f6b09ac9647fe9d3fbaaa8a5cffa5`
-(Bot API 10.3, TL layer 229) — the surface with `Account`, `App` and `bootstrapAt`, which is not
-published yet. Its manifests
-still carry version `0.1.0`, the same string as the published `yuigram@0.1.0`, which is the Bot API
-client alone. So compatibility is checked by what the installed package reports and exports,
-not by its version:
+The skills were tested against the Yuigram source at revision
+`3ea7356cfd7f6b09ac9647fe9d3fbaaa8a5cffa5` (Bot API 10.3, TL layer 229) — the surface with
+`Account`, `App` and `bootstrapAt`, which is not published yet. Its manifests still carry version
+`0.1.0`, the same string as the published `yuigram@0.1.0`, which is the Bot API client alone. So an
+installation is checked by what it reports and exports, not by its version:
 
 ```bash
 node <skills-dir>/using-yuigram/tools/check-version.mjs
 ```
 
-Run it from a project with `yuigram` installed (or pass `--from <project-dir>`). It exits `0` when
-the installed package matches, `1` when it differs — the skills may then be out of date for that
-install — and `2` when `yuigram` is not installed. `list-exports.mjs` lists an entry point's
+Run it from a project with `yuigram` installed (or pass `--from <project-dir>`). It prints four
+things separately — the tested source revision, the installed version, whether the required
+capabilities are detected, and the package's provenance — and exits `0` when the required
+capabilities are detected, `1` when they are not (the skills then describe a different surface),
+and `2` when `yuigram` is not installed. Exit `0` does not establish that the installation *is* the
+tested revision: packed and published packages record no source revision today, so provenance is
+reported as unknown unless the package's manifest carries one (`gitHead`). `list-exports.mjs` lists an entry point's
 runtime exports or finds where a name is exported. Both tools need Node.js 22, read only the
 installed package, and make no network requests.
 
@@ -86,8 +89,8 @@ introduction is also available [in Russian](README.ru.md).
 
 ## Maintaining
 
-When Yuigram changes, update `yuigram_revision` (and `bot_api`, `tl_layer`, `requires`) in every
-`SKILL.md`, then check the repository:
+When Yuigram changes, update `tested_revision` (and `tested_package_version`, `bot_api`,
+`tl_layer`, `requires`) in every `SKILL.md` that has them, then check the repository:
 
 ```bash
 node scripts/validate.mjs
