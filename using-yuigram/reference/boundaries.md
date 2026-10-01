@@ -32,8 +32,9 @@ Signing in needs real credentials and has not been run in any of them.
 - **An edge function cannot poll.** Use `bot.webhook()` with `webWebhook`, and register the URL
   with `bot.api.setWebhook({ url, secret_token })`.
 - **An account off a server** uses `Account.fromString(session, { …, storage })` with
-  `memory()` or `web()`; `Account.fromSession` needs a directory. In a browser, two
-  `web()` stores over the same prefix are one store — give each account a prefix.
+  `memory()` or `web()`; `Account.fromSession` needs a directory. In a browser, `web()` is one
+  place per origin; accounts in it are kept apart by their distinct `name`s, and Web Locks refuse
+  a second page opening the same one.
 - **A browser page cannot call the Bot API** directly; a page that needs a bot talks to a server
   that runs one.
 - **Each subpath loads only when imported.** Import `yuigram/stream`, `yuigram/worker` and the

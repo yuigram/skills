@@ -14,22 +14,30 @@ should outlive the process.
 
 Everything lives under `accounts:<name>:` in the store — `claim`, `auth:…`, `dcs:…`, `peers:…`,
 `updates:…` — where `name` is the account's `name` option (`'account'` by default). Two accounts
-with different names can share a store; two with the same name in one store collide, and that
-is refused.
+with different names can share a store; two runs with the same name in one store collide, and
+the second is refused where the mechanism below can see it.
 
 Before reading or writing, the account takes its area through a guard:
 
 | Where | Guard | Excludes |
 | --- | --- | --- |
 | a browser page | Web Locks | every page and worker of the origin |
-| `sqliteStore`, `redisStore` | a lease the store records and checks on every write | every process and machine reaching that database |
 | elsewhere | a registry in the process | other accounts in this process only |
+| plus, with `sqliteStore` or `redisStore` | a lease the store records and checks in the same atomic step as each `set`/`delete` | every process and machine reaching that database; a superseded run's writes are refused by the store |
 
-Over a plain directory shared by two processes, the claim record written into the store is what
-refuses the second run; a stronger primitive (an advisory lock, a lock file) is passed as
-`storageGuard`. A run that stopped without stopping — a crash — leaves its claim behind; the next
-run refuses it with `StorageOwnershipError` until `takeOverStorage: true` says the previous run is
-gone. Do not set `takeOverStorage` to get past an error without knowing the other run has ended.
+The claim record (`claim`: the name and a token per run) is **not a lock**. It is read and then
+written, so over `file()` or any other persistent store without leases it refuses a run that
+starts *after* another run's claim was written — but two processes that start together both
+proceed, and a take-over in one process does not stop a run still writing in another. For several
+processes on one account's data, use `sqliteStore` or `redisStore`, or pass a real cross-process
+primitive (an advisory lock, a lock file) as `storageGuard`.
+
+A crash leaves the claim behind. In a browser, over a leasing store (after the lease lapses,
+`storageLeaseMs`, 30 s by default) and over `memory()`, the next run adopts it without a flag.
+Over a plain directory the next run refuses with `StorageOwnershipError` until
+`takeOverStorage: true` asserts the previous run has ended. Do not set `takeOverStorage` to get
+past an error without knowing that run has ended: over a non-leasing store nothing stops it if it
+has not.
 
 ## Choosing a store
 
@@ -37,8 +45,8 @@ gone. Do not set `takeOverStorage` to get past an error without knowing the othe
   owner only, and a directory readable by others is reported.
 - Several processes or machines: `sqliteStore` (`@yuigram/sqlite`) or `redisStore`
   (`@yuigram/redis`), which fence a superseded run's writes.
-- Edge runtime or browser: `fromString` with `memory()` or `web()`; in a browser give each
-  account its own `web()` prefix.
+- Edge runtime or browser: `fromString` with `memory()` or `web()`. `web()` is one place per
+  origin, so accounts in a page share it; their distinct `name`s keep them apart.
 - Encryption at rest: `encrypted(store, secret)` around a string store, with the secret from the
   environment.
 

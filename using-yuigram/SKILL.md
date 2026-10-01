@@ -140,8 +140,10 @@ material.
 - **Lifecycle verbs are per client.** A bot `poll()`s or hands `bot.webhook()` to a server; an
   account `connect()`s (or `start()`s); an `App` `start()`s them all. Every client and the app
   `stop({ timeout })`, which drains handlers and returns whether everything finished.
-- **One store per account.** Give each account its own store or `namespaced(store, 'name:')`;
-  two accounts in one area is a `StorageOwnershipError`, not a silent merge.
+- **One area per account name.** Accounts with different `name`s can share a store; a second
+  run with the same name is refused (`StorageOwnershipError`) within a process, a browser origin,
+  or across processes over `sqliteStore`/`redisStore`. Over a plain directory the claim is not a
+  lock between processes — use SQLite or Redis when several processes may open one account.
 - **The filesystem is optional.** `file()`, `media.path`, `downloadToFile` and
   `Account.fromSession` need Node's filesystem. On an edge runtime or in a browser use
   `memory()`/`web()`, `Account.fromString`, and `webWebhook`. See

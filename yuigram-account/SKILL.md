@@ -80,10 +80,13 @@ prints them, logs them, commits them, or sends them anywhere. Do not ask the use
 
 ## Storage ownership
 
-One store per account. The account keeps keys, addresses, peers and its place in the update
-stream under `accounts:<name>:` and claims that area while running. Two accounts given one area
-is a `StorageOwnershipError` — give each account its own store or `namespaced(store, 'first:')`.
-See [reference/storage.md](reference/storage.md).
+One area per account name. The account keeps keys, addresses, peers and its place in the update
+stream under `accounts:<name>:` and claims that area while running, so accounts with different
+`name`s can share a store. A second run with the same name (the default is `'account'`) is
+refused with `StorageOwnershipError` within one process, within a browser origin, and across
+processes over `sqliteStore`/`redisStore`, whose leases are checked atomically with each write.
+Over a plain directory shared by processes the claim is not a lock: it refuses only a run that
+starts after the other's claim was written. See [reference/storage.md](reference/storage.md).
 
 ## Events
 
