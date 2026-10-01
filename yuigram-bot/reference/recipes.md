@@ -143,6 +143,75 @@ The cache keys a file by the bot, the media kind and its source (path, URL, cont
 file sent once more; nothing is cached from a failed call. Two sends of the same file at once
 upload it once.
 
+## Links a bot hands out
+
+`writeLink` writes a `t.me` link in the form Telegram publishes, and `readLink` reads one back
+from any of its hosts (`t.me`, `telegram.me`, `telegram.dog`, `tg:`); both are pure and come from
+`yuigram`. A link that breaks Telegram's rules is a `LinkError` when written; when read, a
+malformed value is passed over, and text that is no Telegram link reads as `undefined`.
+
+```ts
+import { LinkError, readLink, writeLink } from 'yuigram'
+
+writeLink({ kind: 'bot-start', bot: 'shop_bot', payload: 'ref_42' })
+// 'https://t.me/shop_bot?start=ref_42'
+writeLink({ kind: 'group-bot', bot: 'shop_bot', admin: ['delete_messages', 'pin_messages'] })
+// 'https://t.me/shop_bot?startgroup&admin=delete_messages+pin_messages'
+writeLink({ kind: 'mini-app', bot: 'shop_bot', payload: 'cart', mode: 'compact' })
+// 'https://t.me/shop_bot?startapp=cart&mode=compact'
+
+const link = readLink('https://t.me/shop_bot?start=ref_42')
+if (link?.kind === 'bot-start') console.log(link.bot, link.payload)
+
+try {
+  writeLink({ kind: 'bot-start', bot: 'shop_bot', payload: 'has space' })
+} catch (error) {
+  if (!(error instanceof LinkError)) throw error // a start parameter is 1–64 base64url characters
+}
+```
+
+The start parameter comes back to the bot as the text after `/start`:
+`bot.onCommand('start', (message) => …message.command.rest…)`. It is whatever the person's link
+said, so treat it as untrusted input. Other kinds: `channel-bot` (needs at least one right),
+`attach`, `attach-in-chat`, `game`, `username`, `share`, `invite`, `message`, `phone`.
+
+## Mini App launch data
+
+A Mini App sends `Telegram.WebApp.initData` to the server; `yuigram/web-app` reads it apart from
+checking it. Only a value returned by a `verify…` function was checked.
+
+```ts
+import { InitDataError, InitDataKey, verifyInitData, verifyInitDataSignature } from 'yuigram/web-app'
+
+// The bot's own server: `hash`, under a key derived once from the token. Never in a page.
+const key = await InitDataKey.fromToken(process.env.BOT_TOKEN!)
+
+export async function userOf(initData: string) {
+  try {
+    return (await verifyInitData(initData, { key, maxAge: 3600 })).user
+  } catch (error) {
+    if (error instanceof InitDataError) return undefined // error.problem: 'mismatch', 'expired', …
+    throw error
+  }
+}
+
+// A third party, or the page: Telegram's Ed25519 `signature`, with the bot's id and no token.
+export const checked = (initData: string) =>
+  verifyInitDataSignature(initData, { botId: 123456789, maxAge: 3600 })
+```
+
+- `maxAge` (seconds) is required: a valid proof does not stop the same text being sent again
+  within it. `Infinity` accepts any age and should be a stated decision.
+- A valid proof says Telegram issued the data to this bot's Mini App for that user at
+  `auth_date` — not who is presenting it, and not what the user may do. Authorize separately.
+- `readInitData` parses only. Fields keep Telegram's names (`auth_date`, `start_param`, `user`).
+- Problems: `'malformed'`, `'mismatch'`, `'unsigned'` (older data with no `signature`),
+  `'expired'`, `'future'`, `'unsupported'` (no Web Crypto, or no Ed25519). Messages never repeat
+  the data or the token; do not log `initData` yourself.
+- `publicKey: 'test'` for bots in the test environment. The entry point runs on the Web Crypto
+  API alone. If `list-exports.mjs yuigram/web-app` finds no such entry, the installed build
+  predates it.
+
 ## Telegram behaviour worth knowing
 
 - **Answer a button press promptly.** Until `query.answer()` is called the button shows a

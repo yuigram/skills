@@ -12,7 +12,7 @@ allowed-tools: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 3ea7356cfd7f6b09ac9647fe9d3fbaaa8a5cffa5
+  tested_revision: 8dbee2f4e199688190aa13f92548bc037670f394
   tested_package_version: 0.1.0
   bot_api: 10.3
   tl_layer: 229
@@ -78,6 +78,7 @@ Install `yuigram` (Node.js 22+, `"type": "module"`). Import only from these entr
 | `yuigram/markup` | formatted text: `format`, `bold`, `link`, readers and writers, `markup()` |
 | `yuigram/rich` | rich messages |
 | `yuigram/stream` | `stream()` plugin, `streamTo`, stream sources |
+| `yuigram/web-app` | Mini App launch data: `readInitData`, `verifyInitData`, `verifyInitDataSignature` |
 | `yuigram/account-filters` | `f` for an account's events |
 | `yuigram/account-utils` | waveforms, thumbnails, Instant View, inline message ids |
 | `@yuigram/sqlite`, `@yuigram/redis` | storage adapters, separate packages |

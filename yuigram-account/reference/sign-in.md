@@ -58,5 +58,9 @@ Each step reports how far it got (`SignInState`) rather than throwing at a fork 
 
 Telegram's test environment has its own accounts and datacenters. Use its addresses with
 `bootstrapAt({ dc, host, port, testMode: true })` and its server key. Test numbers of the form
-`+99966 X YYYY` need no SIM; their code is `X` repeated five times. Prefer it for any live run
-the user asks for.
+`+99966 X YYYY` need no SIM; their code is `X` repeated five times by Telegram's documentation.
+`account.startTest()` signs one in and builds that code itself — `X` repeated to the length
+Telegram states when it sends the code, five where it states none — and refuses an answer whose
+length no code could have. It is the only path that builds a code: in every other sign-in the
+person types what arrived, so never construct a code for a real number. Prefer the test
+environment for any live run the user asks for.

@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 3ea7356cfd7f6b09ac9647fe9d3fbaaa8a5cffa5
+  tested_revision: 8dbee2f4e199688190aa13f92548bc037670f394
   tl_layer: 229
 ---
 
@@ -134,6 +134,21 @@ const peer = await account.resolve('@example')                       // the Inpu
 
 `SentMessage.id` may be `undefined` when Telegram's short answer did not name it — the message was
 still sent. Formatting: `fromHtml`/`fromMarkdown` (skill `yuigram-formatting`).
+
+A link is read without a connection; finding what it names is a request:
+
+```ts
+import { readLink } from 'yuigram'
+
+const found = await account.getMessageByLink('https://t.me/example/42') // MessageView | undefined
+const link = readLink('https://t.me/contact/AbC_d-9')
+if (link?.kind === 'contact') await account.api.contacts.importContactToken({ token: link.token })
+if (link?.kind === 'proxy') console.log(link.server, link.port) // never log link.secret
+```
+
+`readLink` also describes `socks` proxies, invites, chat folders, stories and boosts. An MTProxy
+secret or a SOCKS5 password in a link is a credential for that proxy: keep it out of logs.
+`getMessageByLink` refuses a private `t.me/c/…` link to a channel this account has not met.
 
 ## Lists
 

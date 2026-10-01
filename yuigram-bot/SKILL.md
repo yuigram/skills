@@ -6,12 +6,13 @@ description: >
   `on`/`onCommand`/`onText`/`onCallbackQuery` and the named `on…` registrations, message and
   callback contexts, the bound methods (`message.banChatMember`, `message.sendPhoto`), `f`
   filters, `Router`, middleware, `InlineKeyboard`/`Keyboard`, `media` sources, downloads,
-  `bot.api` and `bot.api.call`, hooks, `throttle`, `retryOnFloodWait`, `rateLimit`. Read
+  `bot.api` and `bot.api.call`, hooks, `throttle`, `retryOnFloodWait`, `rateLimit`, `t.me`
+  links (`writeLink`, `readLink`), Mini App launch data (`yuigram/web-app`). Read
   `using-yuigram` first for imports and safety rules.
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 3ea7356cfd7f6b09ac9647fe9d3fbaaa8a5cffa5
+  tested_revision: 8dbee2f4e199688190aa13f92548bc037670f394
   bot_api: 10.3
 ---
 
@@ -163,4 +164,6 @@ without sending. `FloodError.retryAfter` is in seconds.
 Write tests with `mockBot` from `yuigram/testing` — see skill `yuigram-testing`. Do not start a
 real bot to check a change unless the user asks for that run.
 
-More: [reference/recipes.md](reference/recipes.md).
+More: [reference/recipes.md](reference/recipes.md) — per-method defaults, cancelling, plugins,
+shared limits, a local server, inline mode, uploading once, links a bot hands out, Mini App
+launch data.
