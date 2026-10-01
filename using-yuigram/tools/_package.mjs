@@ -58,7 +58,8 @@ export async function load(found, specifier) {
 /** The `metadata` block of this skill's SKILL.md frontmatter, as flat strings and lists. */
 export function pin() {
   const skill = join(dirname(fileURLToPath(import.meta.url)), '..', 'SKILL.md')
-  const text = readFileSync(skill, 'utf8')
+  // A checkout may have turned line endings into CRLF; the frontmatter is read either way.
+  const text = readFileSync(skill, 'utf8').replace(/\r\n/g, '\n')
   const frontmatter = /^---\n([\s\S]*?)\n---/.exec(text)?.[1] ?? ''
   const block = /^metadata:\n((?:[ ]{2}.*\n?)*)/m.exec(frontmatter)?.[1] ?? ''
   const values = {}
