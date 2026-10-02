@@ -205,12 +205,41 @@ export const checked = (initData: string) =>
 - A valid proof says Telegram issued the data to this bot's Mini App for that user at
   `auth_date` — not who is presenting it, and not what the user may do. Authorize separately.
 - `readInitData` parses only. Fields keep Telegram's names (`auth_date`, `start_param`, `user`).
+- In the application's own tests, `hashInitData(fields, { token })` gives the `hash` to append so
+  the endpoint accepts a fixture, under a token made up for the test. Never compare hashes by
+  hand to check launch data; that is `verifyInitData`'s job.
 - Problems: `'malformed'`, `'mismatch'`, `'unsigned'` (older data with no `signature`),
   `'expired'`, `'future'`, `'unsupported'` (no Web Crypto, or no Ed25519). Messages never repeat
   the data or the token; do not log `initData` yourself.
 - `publicKey: 'test'` for bots in the test environment. The entry point runs on the Web Crypto
   API alone. If `list-exports.mjs yuigram/web-app` finds no such entry, the installed build
   predates it.
+
+## Commands in text, and slot machines
+
+`parseCommand` is the parser `onCommand` matches with, for text read outside an update; it answers
+the same `ParsedCommand` a handler gets as `message.command`, or `undefined`:
+
+```ts
+import { parseCommand } from 'yuigram'
+import { slotMachineReels } from 'yuigram/dice'
+
+parseCommand('/give@shop_bot 10 gold')
+// { name: 'give', mention: 'shop_bot', rest: '10 gold', args: ['10', 'gold'] }
+parseCommand('see /help') // undefined: the command must open the text
+
+bot.onMessage((message) => {
+  if (message.dice?.emoji !== '🎰') return
+  const [left, center, right] = slotMachineReels(message.dice.value) // 'bar' | 'grapes' | 'lemon' | 'seven'
+  if (left === center && center === right) return message.reply(`three of ${left}`)
+})
+```
+
+- `parseCommand` reads the text alone (not entities) and ignores whitespace around it. It does not
+  decide whom a `/cmd@name` is for — `onCommand` does; with the parser alone, compare `mention`
+  with the bot's username, ignoring case.
+- A 🎰 value is 1–64: three of a kind at 1, 22, 43 and 64 (three sevens). Anything else is a
+  `ValidationError`. Other dice need no decoding — their value is the face.
 
 ## Telegram behaviour worth knowing
 

@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 8dbee2f4e199688190aa13f92548bc037670f394
+  tested_revision: d1f9937b3411da398426736fd754ecf021c3fb09
   bot_api: 10.3
 ---
 
@@ -166,4 +166,4 @@ real bot to check a change unless the user asks for that run.
 
 More: [reference/recipes.md](reference/recipes.md) — per-method defaults, cancelling, plugins,
 shared limits, a local server, inline mode, uploading once, links a bot hands out, Mini App
-launch data.
+launch data, commands in text and slot machines.

@@ -18,6 +18,7 @@ What each entry point holds, by purpose. The lists are what applications use, no
 | Buttons | `InlineKeyboard`, `Keyboard`, `defineCallbackData`, `pager`, `inlineKeyboard`, `callbackButton`, `urlButton` |
 | Files (bot) | `media`, `download`, `downloadStream`, `downloadToFile`, `getFileUrl` |
 | Files (account) | `documentFile`, `photoFile`, `thumbnailFile`, `uploadedPhoto`, `uploadedDocument`, `documentMedia`, `photoMedia` |
+| Commands | `parseCommand`, `ParsedCommand`, `CommandContext` |
 | Links and identifiers | `readLink`, `writeLink`, `LinkError`, `TelegramLink` (bot starts, groups and channels, mini apps, games, usernames, invites, messages, proxies, temporary profiles, …), `peerIdentity`, `botApiId` |
 | Formatting | `html` (escaping template, for `parse_mode: 'HTML'`), `escapeHtml`, `escapeMarkdownV2`, `raw`, `fromHtml`, `fromMarkdown`, `toHtml`, `toMarkdown` |
 | Outgoing calls | `retryOnFloodWait`, `throttle`, `rateLimit`, `limiter`, `withDefaults` |
@@ -36,7 +37,8 @@ What each entry point holds, by purpose. The lists are what applications use, no
 | `yuigram/markup` | `Formatted`, `format`, `html`, `md`, `bold`, `italic`, `code`, `pre`, `link`, `spoiler`, `parseHtml`, `parseMarkdown`, `toHtml`, `toMarkdown`, `markup` |
 | `yuigram/rich` | `Rich` and the block builders |
 | `yuigram/stream` | `stream`, `streamTo`, `StreamFlavour`, `fromOpenAI`, `fromAnthropic`, `fromOllama`, `fromLangChain`, `fromEventEmitter`, `fromBytes` |
-| `yuigram/web-app` | `readInitData`, `verifyInitData`, `verifyInitDataSignature`, `InitDataKey`, `InitDataError`, `InitData`, `WebAppUser`, `WebAppChat`, `TELEGRAM_INIT_DATA_KEYS` |
+| `yuigram/web-app` | `readInitData`, `verifyInitData`, `verifyInitDataSignature`, `hashInitData`, `InitDataKey`, `InitDataError`, `InitData`, `InitDataSecret`, `WebAppUser`, `WebAppChat`, `TELEGRAM_INIT_DATA_KEYS` |
+| `yuigram/dice` | `slotMachineReels`, `SlotMachineReels`, `SlotMachineSymbol` |
 | `yuigram/account-filters` | `f` (`text`, `command`, `regex`, `chat`, `sender`, `incoming`, `outgoing`, `media`, `callback`, `callbackData`, `and`, `or`, `not`, …) |
 | `yuigram/account-utils` | `decodeWaveform`, `encodeWaveform`, `strippedToJpeg`, `readInlineMessageId`, `writeInlineMessageId`, … |
 
