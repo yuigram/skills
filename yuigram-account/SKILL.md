@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: a6521ed7d9cc8fc9c902899e5b7ebefa9f10d946
+  tested_revision: ba6329a548d09c17130ade47b9b3f61885ea0002
   tl_layer: 229
 ---
 
@@ -117,6 +117,12 @@ account.catch((error, event) => event.log.error('handler failed', { kind: event.
   `answerPrecheckout`, `decideJoin`, `fetchChat`, `fetchSender`.
 - `event.here.messages.readHistory({ max_id: 0 })` calls the generated surface with the peer filled
   in; `event.api` is the whole surface.
+- A user's status: `event.presence` on `mtproto:user_status` (the user is `event.target`) and
+  `user.presence` on a `UserView` are the same model — `state` (`'online'`, `'offline'`,
+  `'recently'`, `'last-week'`, `'last-month'`, `'long-ago'`), `onlineUntil` / `lastSeen` in Unix
+  **seconds**, `hiddenByMe`. Telegram pushes these updates for some users only and offers no
+  subscription: read with `account.peersOf([...])` on a slow timer as well, never treat silence
+  or an expired `onlineUntil` as offline, and do not derive a time for a vague state.
 
 ## Peers and sending
 

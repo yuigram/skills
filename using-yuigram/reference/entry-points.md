@@ -17,6 +17,7 @@ What each entry point holds, by purpose. The lists are what applications use, no
 | Conversations | `conversation`, `defineFlow`, `ConversationFlavour`, `ScenePosition`, `FlowRecord` |
 | Buttons | `InlineKeyboard`, `Keyboard`, `defineCallbackData`, `pager`, `inlineKeyboard`, `callbackButton`, `urlButton` |
 | Files (bot) | `media`, `download`, `downloadStream`, `downloadToFile`, `getFileUrl` |
+| People (account) | `UserView`, `UserPresence`, `readPresence` |
 | Files (account) | `documentFile`, `photoFile`, `thumbnailFile`, `uploadedPhoto`, `uploadedDocument`, `documentMedia`, `photoMedia` |
 | Commands | `parseCommand`, `ParsedCommand`, `CommandContext` |
 | Links and identifiers | `readLink`, `writeLink`, `LinkError`, `TelegramLink` (bot starts, groups and channels, mini apps, games, usernames, invites, messages, proxies, temporary profiles, …), `peerIdentity`, `botApiId` |
