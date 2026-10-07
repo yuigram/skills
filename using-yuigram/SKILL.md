@@ -12,7 +12,7 @@ allowed-tools: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: ba6329a548d09c17130ade47b9b3f61885ea0002
+  tested_revision: 3485a96fe627456ccff71c109fcd97a31e0418b7
   tested_package_version: 0.1.0
   bot_api: 10.3
   tl_layer: 229
@@ -126,9 +126,10 @@ await app.start()
 ```
 
 The account's keys and first address are not compiled into the package. Take the server key
-PEM file and the datacenter address from the user — they come from Telegram's MTProto
-documentation; the repository's examples use DC 2 at `149.154.167.50:443`. Never invent key
-material.
+PEM file and the datacenter address from the user. The keys are Telegram's, as TDLib carries
+them; the repository's `examples/20-presence-watch/keys.ts` retrieves and checks them. The
+repository's examples start at DC 2, `149.154.167.50` or `149.154.167.51`, port 443. Never invent
+key material.
 
 ## Rules that prevent the common mistakes
 

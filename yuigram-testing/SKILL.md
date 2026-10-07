@@ -9,7 +9,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: ba6329a548d09c17130ade47b9b3f61885ea0002
+  tested_revision: 3485a96fe627456ccff71c109fcd97a31e0418b7
 ---
 
 # Testing Yuigram code
@@ -41,7 +41,9 @@ it('answers /start', async () => {
   `floodWait`, `apiError`, `message`, `callbackQueryUpdate` and `memberJoinedUpdate` build them,
   so `FloodError` and friends are raised exactly as in production.
 - The bot under test is a real `Bot`: install the same plugins, routers and middleware as the
-  application.
+  application. Where a plugin adds to the context, build it with that flavour —
+  `mockBot<ConversationFlavour>()`, as with `Bot.fromToken<…>()` — rather than casting the bot;
+  `mockAccount<…>()` takes the same parameter.
 
 ## An account
 

@@ -2,8 +2,10 @@
 
 Where Yuigram runs and what each capability needs from the runtime. "Run" below means the
 project's runtime matrix executed it there against a local stand-in; "expected" means the code
-uses nothing the runtime lacks but it was not executed separately. Nothing in the project has
-been run against Telegram itself.
+uses nothing the runtime lacks but it was not executed separately. Against Telegram itself, only
+one example has been run, by hand, under Node.js 22 on production: an account signing in and
+receiving updates, and a bot over long polling. The project's prepared live procedure has not
+been run.
 
 | Capability | Node 22+ | Bun | Deno | Workers / edge | Browser |
 | --- | --- | --- | --- | --- | --- |
@@ -19,7 +21,8 @@ been run against Telegram itself.
 | Account (MTProto) | run | run | run | run locally in workerd | run |
 
 Versions the matrix used: Node.js 22.20.0, Bun 1.4.2, Deno 2.9.6, workerd through Miniflare.
-Signing in needs real credentials and has not been run in any of them.
+The matrix has no credentials, so it signs in nowhere; signing in has run only in that one hand
+run, under Node.js.
 
 ## What follows for code you write
 

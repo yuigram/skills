@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: ba6329a548d09c17130ade47b9b3f61885ea0002
+  tested_revision: 3485a96fe627456ccff71c109fcd97a31e0418b7
   tl_layer: 229
 ---
 
@@ -53,7 +53,7 @@ const fromEnv = Account.fromString(process.env.SESSION!, {
 | Option | Notes |
 | --- | --- |
 | `apiId`, `apiHash` | The application's, from my.telegram.org. Required. |
-| `keys` | Telegram's server public keys, from the PEM text Telegram's MTProto documentation publishes. Checked by fingerprint. Needed until each datacenter the account reaches has an authorization stored. Ask the user for the file; never invent or "fix" key material. |
+| `keys` | Telegram's server public keys as PEM, from TDLib, Telegram's own library (`td/telegram/net/PublicRsaKeySharedMain.cpp`); the Yuigram repository's `examples/20-presence-watch/keys.ts` retrieves them at a pinned revision and checks the file's digest and the fingerprints — production `d09d1d85de64fd85`, test `b25898df208d2603`. Checked by fingerprint. Needed until each datacenter the account reaches has an authorization stored. Ask the user for the file; never invent or "fix" key material, and never take a key from a datacenter's own answer. |
 | `bootstrap` | The first address, `bootstrapAt({ dc, host, port, testMode? })`. A hostname or bad port is a `ValidationError` immediately. The account learns the full list from Telegram and follows redirections itself. |
 | `storage` | Required for `fromString` and `new Account`; `fromSession` makes a `file()` store in the directory. |
 | `name` | Name in logs and for `app.client(name)`; also the account's area in its store. |
