@@ -33,7 +33,7 @@ What each entry point holds, by purpose. The lists are what applications use, no
 | Entry point | Names |
 | --- | --- |
 | `yuigram/testing` | `mockBot`, `mockAccount`, `mockTransport`, fixtures such as `message`, `messageUpdate`, `callbackQueryUpdate`, `memberJoinedUpdate`, `floodWait`, `apiError`, `rpcError` |
-| `yuigram/webhook` | `createWebhookHandler`, `nodeWebhook`, `expressWebhook`, `fastifyWebhook`, `webWebhook` |
+| `yuigram/webhook` | `createWebhookHandler`, `nodeWebhook`, `expressWebhook`, `fastifyWebhook`, `koaWebhook`, `webWebhook` |
 | `yuigram/worker` | `serveAccounts`, `attachAccount`, `workerEndpoint`, `HostUnavailableError` |
 | `yuigram/markup` | `Formatted`, `format`, `html`, `md`, `bold`, `italic`, `code`, `pre`, `link`, `spoiler`, `parseHtml`, `parseMarkdown`, `toHtml`, `toMarkdown`, `markup` |
 | `yuigram/rich` | `Rich` and the block builders |
@@ -42,6 +42,8 @@ What each entry point holds, by purpose. The lists are what applications use, no
 | `yuigram/dice` | `slotMachineReels`, `SlotMachineReels`, `SlotMachineSymbol` |
 | `yuigram/account-filters` | `f` (`text`, `command`, `regex`, `chat`, `sender`, `incoming`, `outgoing`, `media`, `callback`, `callbackData`, `and`, `or`, `not`, …) |
 | `yuigram/account-utils` | `decodeWaveform`, `encodeWaveform`, `strippedToJpeg`, `readInlineMessageId`, `writeInlineMessageId`, … |
+| `yuigram/indexeddb` | `indexedDb`, `IndexedDbStore`, `IndexedDbOptions`, `IndexedDbDurability`, `IndexedDbFactoryLike` and the other structural IndexedDB types |
+| `yuigram/mtproxy` | `mtproxy`, `MtProxy`, `MtProxyOptions`, `MtProxyLink`, `MtProxyMode`, `readProxySecret`, `FakeTlsError`, `MAX_DOMAIN_LENGTH` |
 
 `html` exists twice on purpose: the one from `yuigram` returns an escaped **string** for
 `parse_mode: 'HTML'`; the one from `yuigram/markup` returns a `Formatted` value (text plus

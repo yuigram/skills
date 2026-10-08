@@ -11,7 +11,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: cda9c677576acbef528d436e28b1844b2cf58912
+  tested_revision: 38cb83c787442b903ee2dca9e7ca7f7b213674fa
 ---
 
 # State in Yuigram
@@ -62,6 +62,7 @@ bot.onMessage(async (message) => {
 | `file(dir)` | one process with a disk |
 | `encrypted(stringStore, secret)` | values encrypted at rest (secret from the environment) |
 | `web()` | a browser page |
+| `indexedDb({ database })` from `yuigram/indexeddb` | a browser page or worker with more state than `localStorage` holds |
 | `namespaced(store, 'prefix:')` | an area of a shared store |
 | `tiered(front, back)` | a fast layer over a slow one |
 | `sqliteStore(db, { table })` from `@yuigram/sqlite` | several processes on one machine |
@@ -73,6 +74,18 @@ import { openDatabase, sqliteStore } from '@yuigram/sqlite'
 const database = await openDatabase('./bot.db')
 const carts = sqliteStore<Cart>(database, { table: 'carts' })
 ```
+
+```ts
+import { indexedDb } from 'yuigram/indexeddb'
+
+const browserState = indexedDb<Cart>({ database: 'my-app' })
+await browserState.set('cart', { items: [] })
+await browserState.close()
+```
+
+A write to `indexedDb()` resolves when its transaction completes; a failed one rejects with
+`StorageError`. It does not keep two tabs from running one account — Web Locks do that, as for
+`web()`.
 
 The adapters install no driver: SQLite takes a `node:sqlite`, `better-sqlite3` or `bun:sqlite`
 connection (`openDatabase` uses Node's own), Redis sends commands through the application's

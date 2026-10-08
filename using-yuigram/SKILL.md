@@ -12,7 +12,7 @@ allowed-tools: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: cda9c677576acbef528d436e28b1844b2cf58912
+  tested_revision: 38cb83c787442b903ee2dca9e7ca7f7b213674fa
   tested_package_version: 0.1.0
   bot_api: 10.3
   tl_layer: 229
@@ -73,7 +73,7 @@ Install `yuigram` (Node.js 22+, `"type": "module"`). Import only from these entr
 | --- | --- |
 | `yuigram` | clients, `App`, contexts, the Bot API `f` filters, middleware, routers, sessions, storage, conversations, errors, `html`, `media`, keyboards, account helpers |
 | `yuigram/testing` | `mockBot`, `mockAccount`, update and error fixtures |
-| `yuigram/webhook` | `nodeWebhook`, `expressWebhook`, `fastifyWebhook`, `webWebhook` |
+| `yuigram/webhook` | `nodeWebhook`, `expressWebhook`, `fastifyWebhook`, `koaWebhook`, `webWebhook` |
 | `yuigram/worker` | `serveAccounts`, `attachAccount`, `workerEndpoint` |
 | `yuigram/markup` | formatted text: `format`, `bold`, `link`, readers and writers, `markup()` |
 | `yuigram/rich` | rich messages |
@@ -82,6 +82,8 @@ Install `yuigram` (Node.js 22+, `"type": "module"`). Import only from these entr
 | `yuigram/dice` | `slotMachineReels`: the three reels a 🎰 dice value shows |
 | `yuigram/account-filters` | `f` for an account's events |
 | `yuigram/account-utils` | waveforms, thumbnails, Instant View, inline message ids |
+| `yuigram/indexeddb` | `indexedDb()`: a store over a browser's IndexedDB |
+| `yuigram/mtproxy` | `mtproxy()`: an MTProxy, given to an account as its `proxy` |
 | `@yuigram/sqlite`, `@yuigram/redis` | storage adapters, separate packages |
 
 Never import from `yuigram/dist/…`, `@yuigram/core`, `@yuigram/bot-api`, `@yuigram/mtproto` or
@@ -149,7 +151,7 @@ key material.
   lock between processes — use SQLite or Redis when several processes may open one account.
 - **The filesystem is optional.** `file()`, `media.path`, `downloadToFile` and
   `Account.fromSession` need Node's filesystem. On an edge runtime or in a browser use
-  `memory()`/`web()`, `Account.fromString`, and `webWebhook`. See
+  `memory()`/`web()`/`indexedDb()`, `Account.fromString`, and `webWebhook`. See
   [reference/boundaries.md](reference/boundaries.md).
 - **Session keys are explicit.** `session<V>({ storage, key, initial })` requires all three;
   `userChatKey` is the usual key.

@@ -45,8 +45,10 @@ has not.
   owner only, and a directory readable by others is reported.
 - Several processes or machines: `sqliteStore` (`@yuigram/sqlite`) or `redisStore`
   (`@yuigram/redis`), which fence a superseded run's writes.
-- Edge runtime or browser: `fromString` with `memory()` or `web()`. `web()` is one place per
-  origin, so accounts in a page share it; their distinct `name`s keep them apart.
+- Edge runtime or browser: `fromString` with `memory()` or `web()`; in a browser,
+  `indexedDb()` from `yuigram/indexeddb` when `localStorage` is too small. Both are one place per
+  origin, so accounts in a page share it; their distinct `name`s keep them apart, and Web Locks
+  keep a second page from running the same one.
 - Encryption at rest: `encrypted(store, secret)` around a string store, with the secret from the
   environment.
 

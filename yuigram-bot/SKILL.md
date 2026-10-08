@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: cda9c677576acbef528d436e28b1844b2cf58912
+  tested_revision: 38cb83c787442b903ee2dca9e7ca7f7b213674fa
   bot_api: 10.3
 ---
 
@@ -54,6 +54,17 @@ const handler = bot.webhook({ secretToken: process.env.WEBHOOK_SECRET })
 createServer(nodeWebhook(handler, { path: '/hook' })).listen(8080)
 
 export default { fetch: webWebhook(handler) }   // Fetch-style servers and edge runtimes
+```
+
+In a Koa application, `koaWebhook` is middleware. It uses `ctx.request.body` when a body parser
+ran first and reads the request itself otherwise; Koa sends the response, and a handler that
+throws goes to Koa's error handling. Koa is the application's dependency, not Yuigram's:
+
+```ts
+import Koa from 'koa'
+import { koaWebhook } from 'yuigram/webhook'
+
+new Koa().use(koaWebhook(bot.webhook({ secretToken: process.env.WEBHOOK_SECRET }), { path: '/hook' })).listen(8080)
 ```
 
 A webhook deployment never calls `poll()`. Register the URL once with

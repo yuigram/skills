@@ -18,11 +18,14 @@ been run.
 | `encrypted()` | run | run | run | no | no |
 | `@yuigram/sqlite` | run | run (`node:sqlite`) | run (`node:sqlite`) | no | no |
 | `web()` (`localStorage`) | caller supplies the storage | expected | expected | no | run |
+| `indexedDb()` | over an implementation passed as `factory` (tests use fake-indexeddb) | no | no | no | run (Chromium) |
 | Account (MTProto) | run | run | run | run locally in workerd | run |
+| Account through `mtproxy()`, fake TLS included | run | run | run | no | no: `ConfigError` |
 
 Versions the matrix used: Node.js 22.20.0, Bun 1.4.2, Deno 2.9.6, workerd through Miniflare.
 The matrix has no credentials, so it signs in nowhere; signing in has run only in that one hand
-run, under Node.js.
+run, under Node.js. The MTProxy row ran against a local proxy from Yuigram's test suite in front of
+the mock datacenter: no real MTProxy, and nothing through one to Telegram.
 
 ## What follows for code you write
 
@@ -35,9 +38,12 @@ run, under Node.js.
 - **An edge function cannot poll.** Use `bot.webhook()` with `webWebhook`, and register the URL
   with `bot.api.setWebhook({ url, secret_token })`.
 - **An account off a server** uses `Account.fromString(session, { …, storage })` with
-  `memory()` or `web()`; `Account.fromSession` needs a directory. In a browser, `web()` is one
-  place per origin; accounts in it are kept apart by their distinct `name`s, and Web Locks refuse
-  a second page opening the same one.
+  `memory()`, `web()` or `indexedDb()`; `Account.fromSession` needs a directory. In a browser,
+  `web()` and `indexedDb()` are one place per origin; accounts in it are kept apart by their
+  distinct `name`s, and Web Locks — not IndexedDB's transactions — refuse a second page opening
+  the same one.
+- **An MTProxy needs TCP.** `mtproxy()` works where an account opens its own sockets (Node, Bun,
+  Deno); in a browser it throws `ConfigError`.
 - **A browser page cannot call the Bot API** directly; a page that needs a bot talks to a server
   that runs one.
 - **Each subpath loads only when imported.** Import `yuigram/stream`, `yuigram/worker` and the

@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: cda9c677576acbef528d436e28b1844b2cf58912
+  tested_revision: 38cb83c787442b903ee2dca9e7ca7f7b213674fa
   tl_layer: 229
 ---
 
@@ -59,11 +59,39 @@ const fromEnv = Account.fromString(process.env.SESSION!, {
 | `name` | Name in logs and for `app.client(name)`; also the account's area in its store. |
 | `takeOverStorage` | Take an area a crashed previous run left claimed. |
 | `storageGuard`, `storageLeaseMs`, `device`, `log`, `albumWindow` | Ownership guard, lease, what the server is told about the client, logging, album gathering. |
+| `proxy` | An MTProxy, `mtproxy({ host, port, secret })` from `yuigram/mtproxy`. Below. |
 
 `fromString` reads `'portable'` strings unless given `format: 'tl-v3'` — mtcute's version-3
 string, the one foreign layout supported. An imported string carries the authorization only: the
 account learns peers again and starts its update stream where Telegram is, so updates the other
 library had not received are not fetched.
+
+### Through an MTProxy
+
+```ts
+import { Account, bootstrapAt, memory } from 'yuigram'
+import { mtproxy } from 'yuigram/mtproxy'
+
+const proxied = Account.fromString(process.env.SESSION!, {
+  apiId: Number(process.env.API_ID),
+  apiHash: process.env.API_HASH!,
+  keys,
+  bootstrap: bootstrapAt({ dc: 2, host: '149.154.167.50', port: 443 }),
+  storage: memory(),
+  proxy: mtproxy({ host: process.env.PROXY_HOST!, port: 443, secret: process.env.PROXY_SECRET! }),
+})
+```
+
+- The secret decides the kind: 16 bytes (obfuscated), `dd…` (padded), `ee…` plus a domain
+  (fake TLS). Hex, base64 or base64url. `mtproxy()` also takes a `tg://proxy` link as
+  `readLink` returns it. An unreadable secret is a `ValidationError` at once.
+- Every connection goes through the proxy; none falls back to a direct one, and
+  `obfuscated: false` beside `proxy` is refused. A fake-TLS proxy whose answer does not prove
+  the secret fails with `FakeTlsError`; `greetingTimeout` bounds its greeting.
+- The secret is a credential: never log it or put it in code. The proxy object never shows it.
+- Node, Bun and Deno only; in a browser `mtproxy()` throws `ConfigError`.
+- Tested against a local proxy, not a real one: treat a first run through a real proxy as
+  unverified, and run it only with the user.
 
 ## Lifecycle
 
