@@ -26,10 +26,10 @@ when to load it, instructions, and focused reference files it opens only when ne
 ## Compatibility
 
 The skills were tested against the Yuigram source at revision
-`38cb83c787442b903ee2dca9e7ca7f7b213674fa` (Bot API 10.3, TL layer 229) — the surface with
-`Account`, `App` and `bootstrapAt`, which is not published yet. Its manifests still carry version
-`0.1.0`, the same string as the published `yuigram@0.1.0`, which is the Bot API client alone. So an
-installation is checked by what it reports and exports, not by its version:
+`845afb27465922abae0a85601d0b605f40607912` (Bot API 10.3, TL layer 229) — the surface with
+`Account`, `App` and `bootstrapAt`, prepared as version `0.2.0` and not published yet; npm's
+`yuigram@0.1.0` is the Bot API client alone. A version string does not identify a source
+revision, so an installation is checked by what it reports and exports, not by its version:
 
 ```bash
 node <skills-dir>/using-yuigram/tools/check-version.mjs

@@ -9,7 +9,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 38cb83c787442b903ee2dca9e7ca7f7b213674fa
+  tested_revision: 845afb27465922abae0a85601d0b605f40607912
 ---
 
 # Streaming an answer
