@@ -9,7 +9,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 3485a96fe627456ccff71c109fcd97a31e0418b7
+  tested_revision: cda9c677576acbef528d436e28b1844b2cf58912
 ---
 
 # Testing Yuigram code

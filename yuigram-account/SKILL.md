@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 3485a96fe627456ccff71c109fcd97a31e0418b7
+  tested_revision: cda9c677576acbef528d436e28b1844b2cf58912
   tl_layer: 229
 ---
 
@@ -60,7 +60,10 @@ const fromEnv = Account.fromString(process.env.SESSION!, {
 | `takeOverStorage` | Take an area a crashed previous run left claimed. |
 | `storageGuard`, `storageLeaseMs`, `device`, `log`, `albumWindow` | Ownership guard, lease, what the server is told about the client, logging, album gathering. |
 
-`fromString` reads `'portable'` strings unless given `format: 'tl-v3'`.
+`fromString` reads `'portable'` strings unless given `format: 'tl-v3'` — mtcute's version-3
+string, the one foreign layout supported. An imported string carries the authorization only: the
+account learns peers again and starts its update stream where Telegram is, so updates the other
+library had not received are not fetched.
 
 ## Lifecycle
 

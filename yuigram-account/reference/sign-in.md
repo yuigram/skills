@@ -47,8 +47,10 @@ Each step reports how far it got (`SignInState`) rather than throwing at a fork 
 
 ## After signing in
 
-- `await account.exportSession()` gives the portable string; `{ format: 'tl-v3' }` gives the
-  version-3 TL record other MTProto libraries write. Either is a signed-in account.
+- `await account.exportSession()` gives the portable string; `{ format: 'tl-v3' }` gives
+  mtcute's own version-3 string. Either is a signed-in account. Strings from Telethon, Pyrogram,
+  GramJS or MTKruto are other layouts: Yuigram does not read them, and converting them is a
+  separate capability it does not have. Do not try to read one as `tl-v3`.
 - `await account.me()` is the signed-in user.
 - `await account.logOut()` revokes the authorization and clears the keys, the place in the update
   stream and the peers — which belonged to that authorization. The call goes first, so a refused
