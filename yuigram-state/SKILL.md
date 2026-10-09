@@ -11,7 +11,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 2e5c36105ee989c619f0713b0af315bfeba57dd7
+  tested_revision: 474b3cfe7f15657be9b8a390db5fb5deb12fdf9b
 ---
 
 # State in Yuigram

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: MIT
 
 // Shared by the tools in this directory: find the `yuigram` a project has installed, load one
 // of its entry points, and read the compatibility pin from this skill's SKILL.md.

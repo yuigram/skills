@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: MIT
 
 // Check the repository's structure: every skill has a SKILL.md whose frontmatter names it,
 // says when to use it, and pins the same Yuigram revision; tools a skill allows exist;

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: MIT
 
 // List what an entry point of the installed yuigram exports, or find which entry point
 // exports a name.

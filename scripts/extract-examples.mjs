@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: MIT
 
 // Write every TypeScript block in the skills to its own module, so they can be compiled against
 // an installed yuigram.
