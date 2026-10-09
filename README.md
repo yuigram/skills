@@ -26,8 +26,8 @@ when to load it, instructions, and focused reference files it opens only when ne
 ## Compatibility
 
 The skills were tested against the Yuigram source at revision
-`845afb27465922abae0a85601d0b605f40607912` (Bot API 10.3, TL layer 229) — the surface with
-`Account`, `App` and `bootstrapAt`, prepared as version `0.2.0` and not published yet; npm's
+`53ab8be11a835fd6e6d2900e1d89c1c83a3cd87e` (Bot API 10.3, TL layer 229) — the surface with
+`Account`, `App` and `bootstrapAt`, prepared as version `1.0.0` and not published yet; npm's
 `yuigram@0.1.0` is the Bot API client alone. A version string does not identify a source
 revision, so an installation is checked by what it reports and exports, not by its version:
 
