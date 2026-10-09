@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: MPL-2.0
+
 // Say whether the yuigram a project has installed offers what these skills rely on.
 //
 //   node <skills>/using-yuigram/tools/check-version.mjs [--from <project-dir>]

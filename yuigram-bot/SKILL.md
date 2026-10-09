@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 53ab8be11a835fd6e6d2900e1d89c1c83a3cd87e
+  tested_revision: 2e5c36105ee989c619f0713b0af315bfeba57dd7
   bot_api: 10.3
 ---
 
