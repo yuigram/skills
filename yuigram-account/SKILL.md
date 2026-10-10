@@ -12,7 +12,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: acdd46d1e07ffb068659b65d4686e16a897a271a
+  tested_revision: bc915aed6f992c0193a35ead50af130867d4f6de
   tl_layer: 229
 ---
 
@@ -140,6 +140,9 @@ account.catch((error, event) => event.log.error('handler failed', { kind: event.
   unknown kind is refused at registration.
 - `account.on(kind, filter, handler, { group })`: in each group the first matching handler runs;
   return `Propagation.Continue` to let the next one run too.
+- What this account's own calls do — a send, an edit, a pin, a handler's `reply` — does not come
+  back to its handlers: the caller has the answer. `f.outgoing` matches messages the account sent
+  from another of its clients.
 - Filters come from `yuigram/account-filters`. A Bot API `f` filter here is a compile error.
 - Context: `chat`, `sender`, `target` (`PeerRef`: `{ kind: 'user' | 'chat' | 'channel', id: bigint }`),
   `message` (the TL value), `text`, `date` (may be `undefined`), `raw`, `api`, `here`, `log`.
