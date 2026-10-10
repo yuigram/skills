@@ -8,7 +8,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 1f8412259861b10511f1726ea667ec4c7a0824df
+  tested_revision: acdd46d1e07ffb068659b65d4686e16a897a271a
 ---
 
 # An account in a worker
