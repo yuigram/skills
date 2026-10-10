@@ -12,7 +12,7 @@ allowed-tools: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: b57ef7a487fc7c71d0eb60e30e8418361fe8d7ab
+  tested_revision: 376e34fd708fee7383ff0b8908ffdb8b57f99351
   tested_package_version: 1.0.0
   bot_api: 10.3
   tl_layer: 229
