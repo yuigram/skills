@@ -7,10 +7,6 @@
 MTProto. Каждый навык — каталог с файлом `SKILL.md`: короткое описание, по которому агент решает,
 когда его загрузить, инструкции и справочные файлы, которые открываются только при необходимости.
 
-> **Состояние: локально.** Репозиторий ещё не опубликован. Планируется, что он будет
-> расположен по адресу `https://github.com/yuigram/skills`; до тех пор навыки устанавливаются из
-> локальной копии, как описано ниже.
-
 ## Навыки
 
 | Навык | Для чего |
@@ -49,14 +45,19 @@ node <skills-dir>/using-yuigram/tools/check-version.mjs
 ## Установка
 
 Агенты загружают навыки из каталога навыков; какого именно — зависит от агента, см. его
-документацию. Скопируйте или подключите ссылками каталоги навыков из локальной копии этого
-репозитория:
+документацию. Склонируйте этот репозиторий:
+
+```bash
+git clone https://github.com/yuigram/skills yuigram-skills
+```
+
+Затем скопируйте или подключите ссылками каталоги навыков в каталог навыков:
 
 ```bash
 cp -R /path/to/yuigram-skills/using-yuigram /path/to/yuigram-skills/yuigram-* <skills-dir>/
 ```
 
-Ссылки сохраняют навыки в соответствии с локальной копией:
+Ссылки сохраняют навыки в соответствии с клоном:
 
 ```bash
 for skill in /path/to/yuigram-skills/using-yuigram /path/to/yuigram-skills/yuigram-*; do ln -s "$skill" <skills-dir>/; done
@@ -64,12 +65,6 @@ for skill in /path/to/yuigram-skills/using-yuigram /path/to/yuigram-skills/yuigr
 
 В Windows то же самое делает `Copy-Item -Recurse` в PowerShell. Устанавливайте навыки вместе:
 узкие навыки ссылаются на `using-yuigram` за правилами импорта и безопасности.
-
-**После публикации репозитория** (пока недоступно) копия будет браться из клона:
-
-```bash
-git clone https://github.com/yuigram/skills yuigram-skills
-```
 
 ## Чему навыки учат агента
 

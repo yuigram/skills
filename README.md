@@ -7,9 +7,6 @@ Skills for coding agents that write, review or debug code built on
 and MTProto. Each skill is a directory with a `SKILL.md`: a short description that tells an agent
 when to load it, instructions, and focused reference files it opens only when needed.
 
-> **Status: local.** This repository is not published yet. It is intended to live at
-> `https://github.com/yuigram/skills`; until then, install it from a local copy as described below.
-
 ## Skills
 
 | Skill | Use it for |
@@ -48,13 +45,19 @@ installed package, and make no network requests.
 ## Installation
 
 Agents load skills from a skills directory; which one depends on the agent — see its
-documentation. Copy or link the skill directories there from your local copy of this repository:
+documentation. Clone this repository:
+
+```bash
+git clone https://github.com/yuigram/skills yuigram-skills
+```
+
+Then copy or link the skill directories into the skills directory:
 
 ```bash
 cp -R /path/to/yuigram-skills/using-yuigram /path/to/yuigram-skills/yuigram-* <skills-dir>/
 ```
 
-Linking keeps them current with the local copy:
+Linking keeps them current with the clone:
 
 ```bash
 for skill in /path/to/yuigram-skills/using-yuigram /path/to/yuigram-skills/yuigram-*; do ln -s "$skill" <skills-dir>/; done
@@ -62,12 +65,6 @@ for skill in /path/to/yuigram-skills/using-yuigram /path/to/yuigram-skills/yuigr
 
 On Windows, `Copy-Item -Recurse` in PowerShell does the same as `cp -R`. Install the skills
 together: the focused skills refer to `using-yuigram` for imports and safety rules.
-
-**Once the repository is published** (not yet available), the copy will come from a clone instead:
-
-```bash
-git clone https://github.com/yuigram/skills yuigram-skills
-```
 
 ## What the skills tell an agent
 
