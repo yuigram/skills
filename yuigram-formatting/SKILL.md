@@ -9,7 +9,7 @@ description: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 376e34fd708fee7383ff0b8908ffdb8b57f99351
+  tested_revision: 7c0bf23b80b095fbfa2a59527fb8dc4244aecbeb
 ---
 
 # Formatting with Yuigram
