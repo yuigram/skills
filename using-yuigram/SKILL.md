@@ -12,10 +12,10 @@ allowed-tools: >
 metadata:
   project: yuigram
   source: https://github.com/yuigram/yuigram
-  tested_revision: 7c0bf23b80b095fbfa2a59527fb8dc4244aecbeb
-  tested_package_version: 1.0.0
+  tested_revision: cda2040165570735886b7d73efe06ee80a1f9920
+  tested_package_version: 1.1.0
   bot_api: 10.3
-  tl_layer: 229
+  tl_layer: 232
   requires: [Account, App, bootstrapAt, serverKeysFromPem]
 ---
 
@@ -38,8 +38,8 @@ Yuigram source at `tested_revision` in this file's metadata. The tool reports fo
 that tested revision, the installed version, whether the **required capabilities are detected**
 (the Bot API release and TL layer the package reports, and the exports in `requires`), and
 whether the package records the source revision it was built from. The tested surface carries
-version `1.0.0`; `0.1.0`, the release before it, has the Bot API client only. A version string
-does not identify a revision — a local build and a published `1.0.0` share it — and a package
+version `1.1.0`; `0.1.0` has the Bot API client only, and `Account` came with `1.0.0`. A version
+string does not identify a revision — a local build and a published `1.1.0` share it — and a package
 that records no revision cannot be confirmed as the tested one, so
 "capabilities detected" is the strongest claim the tool makes without that record. If capabilities are not detected, confirm
 every API you use against the installed declarations before relying on these notes.
